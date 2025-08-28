@@ -1,11 +1,13 @@
 // greeting.tool.ts
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { Tool } from '@rekog/mcp-nest';
 import { z } from 'zod';
 import { DppService } from './dpp.service';
 
 @Injectable()
 export class PassportTool {
+  private readonly logger: Logger = new Logger(PassportTool.name);
+
   constructor(private readonly dppService: DppService) {}
   @Tool({
     name: 'product-passport-tool',
@@ -23,6 +25,8 @@ export class PassportTool {
     }),
   })
   async getProductPassport({ uuid }) {
+    this.logger.log(`product-passport-tool is called with uuid: ${uuid}`);
+
     return await this.dppService.getProductPassport(uuid);
   }
 }
